@@ -21,4 +21,17 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 
   // You can expose other APTs you need here.
   // ...
+  onNavigate: (callback: (route: string) => void) => {
+    ipcRenderer.on('navigate-to', (_, route) => callback(route))
+  }
+
+  
+})
+
+
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  onNavigate: (callback: (route: string) => void) => {
+    ipcRenderer.on('navigate-to', (_, route) => callback(route))
+  }
 })

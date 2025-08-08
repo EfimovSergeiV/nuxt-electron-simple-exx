@@ -1,15 +1,6 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, Menu } from 'electron'
 import path from 'node:path'
 
-// The built directory structure
-//
-// ├─┬ dist-electron
-// │ ├─┬ main
-// │ │ └── index.js
-// │ ├─┬ preload
-// │ │ └── index.js
-// │ ├─┬ renderer
-// │ │ └── index.html
 process.env.APP_ROOT = path.join(__dirname, '..')
 
 export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron')
@@ -23,8 +14,6 @@ let win: BrowserWindow | null
 
 function createWindow() {
   win = new BrowserWindow({
-    // frame: false,
-    // fullscreen: true,
     width: 800,
     height: 600,
     webPreferences: {
@@ -32,9 +21,29 @@ function createWindow() {
     },
   })
 
+  // Кастомное меню
+  const menuTemplate: Electron.MenuItemConstructorOptions[] = [
+    {
+      label: 'Приложение',
+      submenu: [
+        { label: 'Привет', click: () => console.log('Привет!') },
+        { type: 'separator' },
+        { role: 'quit', label: 'Выход' }
+      ]
+    },
+    {
+      label: 'Помощь',
+      submenu: [
+        { label: 'О программе', click: () => { win?.webContents.send('navigate-to', '/about') } }
+      ]
+    }
+  ]
+
+  const menu = Menu.buildFromTemplate(menuTemplate)
+  Menu.setApplicationMenu(menu)
+
   if (process.env.VITE_DEV_SERVER_URL) {
     win.loadURL(process.env.VITE_DEV_SERVER_URL)
-    // win.webContents.openDevTools()
   } else {
     win.loadFile(path.join(process.env.VITE_PUBLIC!, 'index.html'))
   }
