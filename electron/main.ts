@@ -23,6 +23,10 @@ let win: BrowserWindow | null
 
 function createWindow() {
   win = new BrowserWindow({
+    // frame: false,
+    // fullscreen: true,
+    width: 800,
+    height: 600,
     webPreferences: {
       preload: path.join(MAIN_DIST, 'preload.js'),
     },
@@ -30,7 +34,7 @@ function createWindow() {
 
   if (process.env.VITE_DEV_SERVER_URL) {
     win.loadURL(process.env.VITE_DEV_SERVER_URL)
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
   } else {
     win.loadFile(path.join(process.env.VITE_PUBLIC!, 'index.html'))
   }
