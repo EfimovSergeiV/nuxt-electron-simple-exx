@@ -12,6 +12,7 @@
     "build": "nuxi build --prerender && electron-builder"
   },
   "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.14.0",
     "electron": "^29.3.0",
     "electron-builder": "^24.13.3",
     "nuxt": "3.6.5",
