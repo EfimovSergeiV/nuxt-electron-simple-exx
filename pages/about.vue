@@ -5,5 +5,9 @@
 
     <nuxt-link :to="{ name: 'index' }">Go to About Page</nuxt-link>
 
+    <div class="mt-6">
+      <ChartsSection />
+    </div>
+    
   </div>
 </template>

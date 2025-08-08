@@ -7,7 +7,15 @@
 npm install
 npm run dev
 
-npm run build
 
+
+npx tailwindcss-cli init
+
+
+
+
+npm run build
 npx electron-builder --linux deb
+
+
 ```
