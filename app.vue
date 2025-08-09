@@ -1,8 +1,12 @@
 <template>
   <div>
-    
-    <AppHeader />
-    <NuxtPage />
+
+    <div class="bg-fixed bg-no-repeat bg-cover bg-center bg-[url('movie-bg.webp')] dark:bg-[url('movie-bg.webp')] min-h-screen">
+
+      <AppHeader />
+      <NuxtPage />
+
+    </div>
 
   </div>
 </template>

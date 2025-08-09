@@ -1,8 +1,8 @@
 {
-  "name": "tks-app",
+  "name": "electron-exx",
   "version": "0.0.2",
   "private": true,
-  "author": "Sergei Efimov <sys0@tehnosvar.ru>",
+  "author": "MeineWelt GmbH <efimovsergeiv@gmail.com>",
   "license": "MIT",
   "main": "dist-electron/main.js",
   "description": "Simple Nuxt + Electron example app",
