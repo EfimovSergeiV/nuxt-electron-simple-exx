@@ -11,7 +11,8 @@
 
   ChartJS.register(Title, Tooltip, Legend, PointElement, LinearScale)
 
-  const chartData = {
+
+  const chartData = ref({
     datasets: [
       {
         label: 'Label 1',
@@ -38,7 +39,7 @@
         backgroundColor: 'rgba(54, 162, 235, 0.5)'
       },
     ]
-  }
+  })
 
   const chartOptions = {
     responsive: true,
@@ -53,10 +54,18 @@
     }
   }
 
+  const chartRef = ref(null)
+
+  watch(chartData, () => {
+    if (chartRef.value) {
+      chartRef.value.chart.update()
+    }
+  }, { deep: true })
+
 </script>
 
 
-<template>
+<template>  
   <div class="">
 
 
@@ -64,7 +73,28 @@
       <p class="text-black/80 text-sm">Bubble chart</p>
     </div>
     <div class="">
-      <Bubble :data="chartData" :options="chartOptions" />
+      <Bubble ref="chartRef" :data="chartData" :options="chartOptions" />
+    </div>
+
+    <div class="py-2">
+      <p class="text-xs">{{ chartData.datasets[0].data }} {{ chartData.datasets[1].data }}</p>
+    </div>
+    <div class="grid grid-cols-3 gap-2">
+      <input v-model="chartData.datasets[0].data[0].x" type="text" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="10">
+      <input v-model="chartData.datasets[0].data[0].y" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="20">
+      <input v-model="chartData.datasets[0].data[0].r" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="30">
+    
+      <input v-model="chartData.datasets[0].data[1].x" type="text" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="10">
+      <input v-model="chartData.datasets[0].data[1].y" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="20">
+      <input v-model="chartData.datasets[0].data[1].r" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="30">
+
+      <input v-model="chartData.datasets[1].data[0].x" type="text" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="10">
+      <input v-model="chartData.datasets[1].data[0].y" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="20">
+      <input v-model="chartData.datasets[1].data[0].r" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="30">
+    
+      <input v-model="chartData.datasets[1].data[1].x" type="text" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="10">
+      <input v-model="chartData.datasets[1].data[1].y" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="20">
+      <input v-model="chartData.datasets[1].data[1].r" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="30">
     </div>
 
   </div>
