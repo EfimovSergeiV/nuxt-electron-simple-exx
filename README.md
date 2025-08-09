@@ -1,7 +1,7 @@
-# Nuxt 3 + Electron expample
+# Nuxt 3 + Electron пример
 
 
-### Install
+### Установка и сборка
 
 ```zsh
 # Установка зависимостей, запуск dev 
