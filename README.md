@@ -16,8 +16,8 @@ npx electron-builder --win --x64    # .exe for Windows OS
 
 
 # Чистка RC перед переустановкой в Linux
-dpkg --list |grep "^rc"
-dpkg --list |grep "^rc" | cut -d " " -f 3 | sudo xargs dpkg --purge
+dpkg --list | grep "^rc"
+dpkg --list | grep "^rc" | cut -d " " -f 3 | sudo xargs dpkg --purge
 
 ```
 
