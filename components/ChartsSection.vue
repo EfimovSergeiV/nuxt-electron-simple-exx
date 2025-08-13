@@ -2,6 +2,7 @@
   import BubbleChart from '~/components/charts/BubbleChart.vue'
   import ChartSimple from '~/components/charts/ChartSimple.vue'
   import MultiAxisLineChart from '~/components/charts/MultiAxisLineChart.vue'
+  import ProgressiveLineChart from '~/components/charts/ProgressiveLineChart.vue'
 
 </script>
 
@@ -17,6 +18,9 @@
       </div>
       <div class="bg-white px-4 py-2 rounded-lg shadow-md">
         <MultiAxisLineChart />
+      </div>
+      <div class="bg-white px-4 py-2 rounded-lg shadow-md">
+        <ProgressiveLineChart />
       </div>
     </div>
   </div>
