@@ -48,19 +48,57 @@
         position: 'top'
       },
       title: {
-        display: true,
+        display: false,
         text: 'Пример Bubble Chart'
       }
     }
   }
 
+
   const chartRef = ref(null)
 
-  watch(chartData, () => {
-    if (chartRef.value) {
-      chartRef.value.chart.update()
+  const wsState = ref('')
+
+  const wsUrl = `ws://localhost:8000/ws`
+  let socket = null
+
+  function connectWebSocket() {
+    socket = new WebSocket(wsUrl)
+
+    socket.onopen = () => {
+      wsState.value = 'connected'
     }
-  }, { deep: true })
+
+    socket.onmessage = (event) => {
+      try {
+        const newData = JSON.parse(event.data)
+
+        if (Array.isArray(newData) && newData[0]?.data) {
+          const chartInstance = chartRef.value?.chart
+          if (chartInstance) {
+            chartInstance.data.datasets = newData
+            chartInstance.update()
+          }
+        }
+      } catch (e) {
+        console.error('Ошибка парсинга данных', e)
+      }
+    }
+
+    socket.onclose = () => {
+      console.log('Соединение закрыто, переподключение...')
+      setTimeout(connectWebSocket, 1000)
+    }
+  }
+
+  setInterval(() => {
+    if (socket?.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({ chart: 'bubble' }))
+    }
+  }, 3000)
+
+  onMounted(connectWebSocket)
+  onUnmounted(() => socket?.close())
 
 </script>
 
@@ -68,33 +106,11 @@
 <template>  
   <div class="">
 
-
     <div class="border-b">
       <p class="text-black/80 text-sm">Bubble chart</p>
     </div>
     <div class="">
       <Bubble ref="chartRef" :data="chartData" :options="chartOptions" />
-    </div>
-
-    <div class="py-2">
-      <p class="text-xs">{{ chartData.datasets[0].data }} {{ chartData.datasets[1].data }}</p>
-    </div>
-    <div class="grid grid-cols-3 gap-2">
-      <input v-model="chartData.datasets[0].data[0].x" type="text" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="10">
-      <input v-model="chartData.datasets[0].data[0].y" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="20">
-      <input v-model="chartData.datasets[0].data[0].r" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="30">
-    
-      <input v-model="chartData.datasets[0].data[1].x" type="text" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="10">
-      <input v-model="chartData.datasets[0].data[1].y" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="20">
-      <input v-model="chartData.datasets[0].data[1].r" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="30">
-
-      <input v-model="chartData.datasets[1].data[0].x" type="text" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="10">
-      <input v-model="chartData.datasets[1].data[0].y" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="20">
-      <input v-model="chartData.datasets[1].data[0].r" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="30">
-    
-      <input v-model="chartData.datasets[1].data[1].x" type="text" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="10">
-      <input v-model="chartData.datasets[1].data[1].y" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="20">
-      <input v-model="chartData.datasets[1].data[1].r" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-center rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="30">
     </div>
 
   </div>
