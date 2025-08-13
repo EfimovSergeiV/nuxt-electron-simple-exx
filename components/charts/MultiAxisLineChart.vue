@@ -59,6 +59,13 @@
         position: 'top'
       }
     },
+    animation: {
+      duration: 600,
+      easing: 'linear',
+      delay: (context) => {
+        return context.dataIndex * 50;
+      }
+    },
     scales: {
       y: {
         type: 'linear',
@@ -75,6 +82,7 @@
       // }
     }
   }
+
 
   const chartRef = ref(null)
 
