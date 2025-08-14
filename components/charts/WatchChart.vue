@@ -40,7 +40,14 @@
 
   const chartOptions = {
     responsive: true,
-    animation: false,
+    // animation: false,
+      animation: {
+        duration: 50,
+        easing: 'linear',
+        delay: (context) => {
+          return context.dataIndex * 5;
+        },
+      },
     scales: {
       x: { title: { display: true, text: 'Time' } },
       y: { min: 0, max: 500, title: { display: true, text: 'Value' } }
