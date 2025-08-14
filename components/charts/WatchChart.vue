@@ -19,7 +19,7 @@
   const values = ref([])
 
   // Инициализация с 10 пустыми точками, чтобы график сразу был построен
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 100; i++) {
     labels.value.push('')
     values.value.push(null)
   }
@@ -32,9 +32,9 @@
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         data: [...values.value],
-        tension: 0.1,
+        // tension: 0.1,
         borderWidth: 1,
-        pointRadius: 2
+        // pointRadius: 1
       }
     ]
   })
@@ -68,7 +68,7 @@
         if (ws.readyState === WebSocket.OPEN) {
           ws.send(JSON.stringify({ chart: 'watch' }))
         }
-      }, 1000)
+      }, 100)
     }
 
     ws.onmessage = (event) => {
