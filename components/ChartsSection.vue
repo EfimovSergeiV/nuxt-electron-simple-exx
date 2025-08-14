@@ -3,6 +3,7 @@
   import ChartSimple from '~/components/charts/ChartSimple.vue'
   import MultiAxisLineChart from '~/components/charts/MultiAxisLineChart.vue'
   import ProgressiveLineChart from '~/components/charts/ProgressiveLineChart.vue'
+  import WatchChart from './charts/WatchChart.vue'
 
 </script>
 
@@ -21,6 +22,9 @@
       </div>
       <div class="bg-white px-4 py-2 rounded-lg shadow-md">
         <ProgressiveLineChart />
+      </div>
+      <div class="bg-white px-4 py-2 rounded-lg shadow-md">
+        <WatchChart />
       </div>
     </div>
   </div>

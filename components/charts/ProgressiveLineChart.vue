@@ -85,6 +85,8 @@ const wsState = ref('')
 const wsUrl = `ws://localhost:8000/ws`
 let socket = null
 
+const debug = ref('')
+
 function connectWebSocket() {
   socket = new WebSocket(wsUrl)
 
@@ -100,6 +102,7 @@ function connectWebSocket() {
         const chartInstance = chartRef.value?.chart
         if (chartInstance) {
           chartInstance.data.datasets = newData
+          debug.value = newData
           chartInstance.update()
         }
       }
@@ -123,6 +126,7 @@ setInterval(() => {
 onMounted(connectWebSocket)
 onUnmounted(() => socket?.close())
 </script>
+
 
 <template>
   <div>
