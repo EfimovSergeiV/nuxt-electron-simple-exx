@@ -33,6 +33,7 @@
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         data: [...values.value],
         tension: 0.1,
+        borderWidth: 1,
         pointRadius: 2
       }
     ]
@@ -40,14 +41,14 @@
 
   const chartOptions = {
     responsive: true,
-    // animation: false,
-      animation: {
-        duration: 50,
-        easing: 'linear',
-        delay: (context) => {
-          return context.dataIndex * 5;
-        },
-      },
+    animation: false,
+    // animation: {
+    //   duration: 50,
+    //   easing: 'linear',
+    //   delay: (context) => {
+    //     return context.dataIndex * 5;
+    //   },
+    // },
     scales: {
       x: { title: { display: true, text: 'Time' } },
       y: { min: 0, max: 500, title: { display: true, text: 'Value' } }
